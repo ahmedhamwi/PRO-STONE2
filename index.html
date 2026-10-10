@@ -1,0 +1,381 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>PRO STONE 0.4.9</title><style>
+:root{--bg:#282d32;--card:#373f47;--line:#66717a;--btn:#e9e6e2;--ink:#17191b;--accent:#e7a45f}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f4f3f1;font-family:system-ui,Tahoma,sans-serif;font-size:15px}button,input,select{font:inherit}button{cursor:pointer}header{display:flex;justify-content:space-between;align-items:center;padding:12px;background:#333a42;position:sticky;top:0;z-index:10;border-bottom:1px solid #626b72}h1{font-size:19px;margin:0}.btn{background:var(--btn);color:var(--ink);border:1px solid #c6c3bf;border-radius:10px;padding:11px 13px;font-weight:700}.small{padding:7px 9px;font-size:13px}.card{margin:12px;padding:13px;background:var(--card);border:1px solid #525e68;border-radius:17px}h2{font-size:17px;margin:0 0 14px;color:#f2c08c}.topline{text-align:center;margin:6px 0}.field{display:flex;align-items:center;gap:7px;justify-content:center}.field label{white-space:nowrap;font-size:12px}.field input{width:75px;max-width:100%;padding:9px 5px;text-align:center;border:1px solid #a4a9a9;border-radius:8px;background:#eae7e3;color:#111;font-weight:700}.inline-row{display:grid;grid-template-columns:85px 1fr 85px;align-items:center;gap:5px}.stone{height:160px;border:4px solid var(--accent);border-radius:10px;background:#f1ede6;position:relative;overflow:hidden;touch-action:none;color:#292b2d;user-select:none}.stone:before{content:"";position:absolute;inset:15px 0;background:repeating-linear-gradient(160deg,transparent 0 45px,#ddd7cd 47px,transparent 49px);opacity:.25;pointer-events:none}.fixture{position:absolute;top:24%;height:52%;border:3px solid #4b626e;border-radius:9px;background:#aec1c7;display:flex;align-items:center;justify-content:center;flex-direction:column;touch-action:none;cursor:grab;font-size:13px;min-width:36px}.fixture.hob{background:#383b3e;color:white}.fixture.active{outline:3px solid #efb05f}.fixture.inactive{opacity:.38;border-style:dashed;filter:grayscale(.35);cursor:pointer}.fixture.inactive .tag{display:none}.tag{position:absolute;top:-24px;background:#fff;color:#111;border-radius:5px;padding:2px 4px;white-space:nowrap;font-size:11px}.seam{position:absolute;top:0;bottom:0;border-left:3px dashed #a35b24;touch-action:none;z-index:3}.seam span{position:absolute;bottom:4px;right:3px;background:white;color:#222;font-size:10px;white-space:nowrap;border-radius:4px;padding:2px}.corner-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:12px}.corner-row button{font-size:12px}.checkrow{display:flex;gap:7px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:12px}.checkrow input[type=checkbox]{width:20px;height:20px;accent-color:#e9a562}.joint{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:9px 0}.joint label{background:#454e56;padding:9px 3px;border-radius:9px;text-align:center;font-size:12px}.joint input{display:block;margin:0 auto 6px;accent-color:#e6aa6d}.editor{display:none;margin-top:10px;padding:11px;border:1px solid #9eaaa9;border-radius:10px;background:#303941}.editor.show{display:block}.editorline{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.editor input,.editor select,.settings input,.settings select{width:90px;max-width:100%;background:#eae7e3;color:#111;border:0;border-radius:8px;padding:9px}.editor .btn{margin:3px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.note{font-size:12px;color:#c6c9ca;line-height:1.7}.board{position:relative;width:100%;aspect-ratio:2/1;background:#eeeae4;border:3px solid #b7b4af;border-radius:7px;touch-action:none;overflow:hidden;color:#171717}.piece{position:absolute;background:#b6cbd0;border:2px solid #46606d;border-radius:4px;display:flex;justify-content:center;align-items:center;text-align:center;font-size:10px;touch-action:none;user-select:none;overflow:hidden}.piece.selected{border:3px solid #e4b143}.piece.move{animation:flash .7s infinite alternate}@keyframes flash{from{background:#f6e277}to{background:#e4b841}}.board.full{position:fixed;inset:6px;z-index:30;width:calc(100vw - 12px);height:calc(100dvh - 12px);aspect-ratio:auto}.settings{display:none;position:fixed;inset:0;background:#000a;z-index:40;overflow:auto;padding:14px}.settings.open{display:block}.settings>section{max-width:520px;margin:25px auto;background:#39434c;border:1px solid #b9a07d;border-radius:18px;padding:16px}.settings .row{display:flex;gap:8px;align-items:center;justify-content:space-between;margin:12px 0;flex-wrap:wrap}.settings .row input{width:82px}.settings h3{border-bottom:1px solid #67737b;padding-bottom:7px}.hidden{display:none!important}#toast{position:fixed;bottom:20px;left:15px;right:15px;background:#171c21;color:white;padding:13px;border-radius:10px;text-align:center;z-index:100;display:none}.board-actions{display:none;position:fixed;bottom:10px;left:10px;right:10px;background:#343c43;border:1px solid #e5b17c;border-radius:13px;padding:10px;z-index:35;gap:6px;flex-wrap:wrap}.board-actions.show{display:flex}@media print{header,.btn,.settings,.editor,.note,.board-actions{display:none!important}body{background:white;color:black}.card{break-inside:avoid;color:black;background:white}}
+
+/* PRO STONE 0.3.4.6: compact, landscape countertop and inline labeling */
+.inline-row{grid-template-columns:minmax(55px,80px) minmax(0,1fr) minmax(38px,55px);gap:7px}
+.stone{height:auto;aspect-ratio:3.7 / 1;min-height:95px;border-radius:7px}
+.stone .fixture{top:16%;height:68%;min-width:20px;font-size:clamp(9px,2.3vw,13px)}
+.name-row{display:grid;grid-template-columns:minmax(0,2fr) minmax(85px,1fr);gap:10px;margin:14px 0 4px}
+.name-row label{display:flex;flex-direction:column;gap:6px;font-size:13px}
+.name-row input{width:100%;min-width:0;border:1px solid #c6c3bf;border-radius:10px;padding:12px;background:var(--btn);color:var(--ink);font-size:16px}
+.corner-row{align-items:center}.corner-hint{text-align:center;font-size:12px;color:#f2c08c}
+.angle-mark{position:absolute;z-index:6;bottom:0;font-size:23px;color:#b76622;line-height:1}.angle-mark.right{right:1px}.angle-mark.left{left:1px}
+@media(max-width:390px){.inline-row{grid-template-columns:58px minmax(0,1fr) 40px}.inline-row .field{flex-wrap:wrap}.inline-row .field input{width:55px}.stone{min-height:83px}.corner-row button{padding:9px 3px;font-size:11px}}
+.settings{padding:8px}.settings>section{width:100%;max-width:520px;margin:12px auto;overflow-x:hidden}.settings .row{justify-content:flex-start}.settings .row input{min-width:65px;flex:0 1 85px}.settings .grid2{grid-template-columns:repeat(2,minmax(0,1fr))}.settings .btn{min-width:0;overflow-wrap:anywhere}@media(max-width:390px){.settings .grid2{grid-template-columns:1fr}}
+
+/* v0.2.4: mobile viewport containment */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+body{min-width:0}
+header{width:100%;max-width:100%;min-width:0;gap:8px}
+header h1{min-width:0;font-size:clamp(14px,4vw,19px);overflow-wrap:anywhere}
+.card{width:calc(100% - 24px);max-width:calc(100% - 24px);min-width:0;overflow:hidden}
+.card>*{max-width:100%;min-width:0}
+.inline-row{display:grid;width:100%;max-width:100%;min-width:0;grid-template-columns:minmax(0,58px) minmax(0,1fr) minmax(0,58px);gap:4px}
+.inline-row>*{min-width:0;max-width:100%}
+.inline-row .field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.inline-row .field label{font-size:11px;white-space:normal;text-align:center}
+.inline-row .field input{width:100%;min-width:0;font-size:13px;padding:7px 2px}
+.stone{width:100%;min-width:0;max-width:100%;height:auto;aspect-ratio:3.7/1;min-height:80px}
+.stone .fixture{max-width:90%;overflow:visible}
+.topline.field{flex-wrap:wrap}
+.topline.field input{width:92px;min-width:0}
+.name-row,.corner-row,.grid2,.joint{width:100%;min-width:0;max-width:100%}
+.name-row>* ,.corner-row>* ,.grid2>* ,.joint>*{min-width:0;max-width:100%}
+.corner-row{grid-template-columns:minmax(0,1fr) minmax(0,.6fr) minmax(0,1fr)}
+.corner-row .btn{white-space:normal;overflow-wrap:anywhere;padding:9px 4px}
+.checkrow>*{max-width:100%}
+.settings{width:100vw;max-width:100vw;left:0;right:0;padding:8px;overflow-x:hidden;overflow-y:auto}
+.settings>section{box-sizing:border-box;width:100%;max-width:100%;min-width:0;margin:8px auto;padding:12px;overflow-x:hidden}
+.settings>section>*{max-width:100%;min-width:0}
+.settings .row{display:flex;flex-wrap:wrap;max-width:100%;gap:8px}
+.settings .row>*{min-width:0;max-width:100%}
+.settings .grid2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.settings input,.settings select{min-width:0;max-width:100%}
+.settings .btn{white-space:normal;overflow-wrap:anywhere}
+@media(max-width:410px){.settings .grid2{grid-template-columns:repeat(2,minmax(0,1fr))}.settings .grid2 .btn{padding:10px 5px;font-size:12px}.settings .row input{width:75px;flex:0 1 75px}.settings h3{font-size:16px}.corner-hint{font-size:10px}}
+
+/* Piece labels and scaled cut-outs */
+.piece{overflow:visible!important;isolation:isolate}
+.piece-dim{position:absolute;z-index:4;font-size:clamp(8px,2.3vw,12px);font-weight:700;color:#172d36;background:#f8f7f2ed;border-radius:3px;padding:1px 3px;white-space:nowrap;pointer-events:none}
+.piece-dim-l{top:2px;left:50%;transform:translateX(-50%);border-bottom:1px solid #536a73}
+.piece-dim-w{left:2px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:center}
+.piece-caption{position:absolute;top:-18px;bottom:auto;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:clamp(8px,2vw,11px);background:#f6f7f8b5;padding:1px 3px;border-radius:3px;z-index:3;pointer-events:none}
+.piece-opening{position:absolute;top:50%;transform:translateY(-50%);display:flex;justify-content:center;align-items:center;border:2px solid #465c65;border-radius:6px;background:#e5edf0;color:#23343b;font-size:clamp(10px,2.5vw,18px);overflow:hidden;white-space:nowrap;pointer-events:none;z-index:2}
+.piece-opening.hob{background:#3d4146;color:white;font-size:clamp(7px,1.6vw,12px)}
+
+.measure-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:13px 0 10px}.measure-grid label{font-size:12px;display:flex;flex-direction:column;gap:6px;min-width:0}.measure-grid input,.material-row select{width:100%;min-width:0;background:#e9e6e2;color:#111;border:0;border-radius:9px;padding:10px 5px;text-align:center;font-size:15px}.material-row{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin:8px 0 12px}.material-row label{display:flex;flex-direction:column;gap:5px;min-width:130px}.add-green{display:block;width:100%;background:#27944e!important;border-color:#4aba72!important;color:#fff!important;padding:15px;margin:12px 0;font-size:18px}.clear-compact{display:block;margin:5px 0 0 auto}.piece.material-porcelain{background-color:#eee9e0;background-image:repeating-linear-gradient(153deg,transparent 0 28px,#c9c5bd80 29px,transparent 31px,transparent 76px)}.piece.material-quartz{background-color:#e9e4da;background-image:radial-gradient(#a8a59b 0.7px,transparent 1.1px);background-size:9px 9px}.piece.material-belenco{background-color:#ded8cf;background-image:repeating-linear-gradient(170deg,transparent 0 36px,#b7afa785 38px,transparent 40px)}.piece.material-granite{background-color:#888d8c;background-image:radial-gradient(#3339 1px,transparent 2px),radial-gradient(#e9e9e8 1px,transparent 2px);background-size:12px 11px,9px 8px}.piece .piece-caption{background:#ffffffbd;border-radius:3px;padding:2px;color:#111}.stone{background:#eee9e0}.stone:before{opacity:.4}@media(max-width:400px){.measure-grid{gap:4px}.measure-grid label{font-size:10px}.measure-grid input{font-size:13px;padding:9px 2px}}
+.drag-preview{position:fixed!important;z-index:1000!important;pointer-events:none!important;opacity:.88;border:3px solid #25a84d!important;box-shadow:0 8px 22px #0006;transform:none!important;transition:none!important;touch-action:none} .piece{cursor:grab} .piece:active{cursor:grabbing}.piece-details{position:absolute;z-index:5;top:50%;left:50%;transform:translate(-50%,-50%);font-size:clamp(9px,2vw,13px);font-weight:700;background:#ffffffd9;color:#142e36;border-radius:5px;padding:3px 5px;text-align:center;max-width:94%;white-space:normal;pointer-events:none}.piece-opening{z-index:4}
+/* 0.2.9: preserve true slab proportions in expanded view */
+.board.full{inset:auto!important;top:50%!important;left:50%!important;transform:translate(-50%,-50%)!important;width:min(calc(100vw - 12px),calc((100dvh - 24px) * var(--board-ratio)))!important;height:auto!important;aspect-ratio:var(--board-ratio)!important;max-height:calc(100dvh - 24px)!important;box-shadow:0 0 0 100vmax #15191de8;overflow:hidden!important}
+.piece-dim-l{top:3px;left:50%;transform:translateX(-50%)}
+.piece-dim-bottom{bottom:3px;left:50%;transform:translateX(-50%)}
+.piece-dim-w{left:auto;right:2px;top:50%;transform:translateY(-50%) rotate(-90deg)}
+.piece-details:empty{display:none}
+.piece-details{top:40%;max-width:65%;font-size:11px}
+.piece-caption{bottom:18px}
+.merge-indicator{position:absolute;z-index:6;pointer-events:none;color:#9b511a;background:#fff3d4d9;font-size:clamp(7px,1.8vw,10px);font-weight:800;white-space:nowrap;border-radius:3px;padding:1px 2px}
+.merge-front{bottom:1px;left:8%;border-bottom:3px solid #dd8736}.merge-back{top:1px;left:8%;border-top:3px solid #dd8736}.merge-left{left:1px;top:17%;writing-mode:vertical-rl;border-left:3px solid #dd8736}.merge-right{right:1px;top:17%;writing-mode:vertical-rl;border-right:3px solid #dd8736}
+
+/* 0.3.0: precise edge dimensions and non-overlapping markers */
+.piece{overflow:hidden!important}
+.piece-dim{z-index:12!important;font-size:clamp(9px,1.8vw,12px)!important;line-height:1.2;max-width:94%;text-overflow:clip;overflow:hidden;direction:ltr;unicode-bidi:isolate}
+.piece-dim-l{top:2px!important;left:50%!important;transform:translateX(-50%)!important}
+.piece-dim-bottom{bottom:2px!important;left:50%!important;transform:translateX(-50%)!important}
+.piece-dim-w{right:1px!important;left:auto!important;top:50%!important;transform:translateY(-50%)!important;writing-mode:vertical-rl;max-height:80%;max-width:none}
+.piece-caption{z-index:8;bottom:19px!important;font-size:10px}
+.piece-details{position:absolute;top:35%;left:5%;z-index:8;background:#fffdf0d9;color:#172d36;font-size:10px;border-radius:4px;padding:2px;pointer-events:none}
+.merge-indicator{z-index:9!important;font-size:9px!important;max-width:70%;overflow:hidden}
+.merge-front{bottom:15px!important;left:3px!important}.merge-back{top:18px!important;left:3px!important}
+.merge-left{left:1px!important;top:22%!important}.merge-right{right:15px!important;top:22%!important}
+.piece-opening{z-index:2!important}
+.piece.narrow-piece .piece-dim-l,.piece.narrow-piece .piece-dim-bottom{font-size:9px!important;max-width:98%}
+.piece.narrow-piece .piece-caption{font-size:9px;max-width:100%;overflow:hidden}
+.piece.narrow-piece .merge-indicator{font-size:8px!important}
+
+/* v0.3.1: clean black measurements on the stone, without unit chips */
+.piece .piece-dim{color:#000!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;font-weight:800!important;text-shadow:0 1px 1px #fff,0 -1px 1px #fff;overflow:visible!important}
+.piece .piece-dim-l{top:3px!important}
+.piece .piece-dim-bottom{bottom:3px!important}
+.piece .piece-dim-w{right:3px!important;writing-mode:vertical-rl!important;transform:translateY(-50%)!important}
+
+/* 0.3.2: actual narrow stone strips at selected miter edges, no text badges */
+.piece .miter-strip{position:absolute;display:block;z-index:5;pointer-events:none;box-sizing:border-box;min-width:0;min-height:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.20) 0 4px,rgba(80,70,60,.09) 4px 5px,rgba(255,255,255,.10) 5px 10px);}
+.piece .miter-front{bottom:0;left:0;width:100%;border-top:1px dashed #8e6544}
+.piece .miter-back{top:0;left:0;width:100%;border-bottom:1px dashed #8e6544}
+.piece .miter-left{top:0;left:0;height:100%;border-right:1px dashed #8e6544}
+.piece .miter-right{top:0;right:0;height:100%;border-left:1px dashed #8e6544}
+
+.corner-touch{position:absolute;bottom:0;z-index:8;width:40px;height:40px;border:0;background:transparent;color:#99603a;font-size:25px;display:grid;place-items:end;cursor:pointer;touch-action:manipulation}.corner-touch.right{right:0}.corner-touch.left{left:0}.corner-touch.on{color:#e18630;text-shadow:0 0 2px #fff}.angle-mark{display:none!important}.material-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0}.material-row select{background:#e9e6e2;color:#17191b;border-radius:9px;padding:10px}.settings .joint{grid-template-columns:repeat(4,minmax(0,1fr))}
+
+/* PRO STONE 0.3.7 — shop drawing controls */
+.corner-touch{position:absolute;z-index:8;width:27px;height:27px;padding:0;border:1px solid #8c6b49;background:#eeeae4;color:#9b571f;border-radius:6px;font-size:17px;line-height:24px}.corner-touch.on{background:#f0b26f;color:#111}.corner-touch.tl{left:2px;top:2px}.corner-touch.tr{right:2px;top:2px}.corner-touch.bl{left:2px;bottom:2px}.corner-touch.br{right:2px;bottom:2px}
+.slope-editor{display:none;grid-template-columns:1fr 90px auto;gap:7px;align-items:center;margin:8px 0;background:#303941;padding:8px;border-radius:9px}.slope-editor.show{display:grid}.slope-editor input{width:100%;padding:9px;border:0;border-radius:8px;background:#eae7e3;color:#111}
+.measure-arrow{position:absolute;height:0;border-top:2px solid #111;z-index:10;pointer-events:none}.measure-arrow:before,.measure-arrow:after{content:"";position:absolute;top:-5px;width:8px;height:8px;border-top:2px solid #111;border-right:2px solid #111}.measure-arrow:before{left:-1px;transform:rotate(-135deg)}.measure-arrow:after{right:-1px;transform:rotate(45deg)}.measure-arrow .mtext{position:absolute;left:50%;bottom:3px;transform:translateX(-50%);background:#fff8;color:#000;font-weight:800;font-size:10px;padding:0 2px;white-space:nowrap}
+.fixture-side-buttons{display:flex;gap:5px}.fixture-side-buttons button{min-width:42px}.fixture-side-buttons button.on{background:#f0b26f}.merge-live{margin-top:10px}.merge-live .joint label{background:#4a545d}.merge-live .joint label:has(input:checked){background:#e9e6e2;color:#111;font-weight:800}
+.corner-note{position:absolute;z-index:13;color:#111;font-weight:900;font-size:10px;background:transparent;padding:0;pointer-events:none;border:0;white-space:nowrap;text-shadow:0 1px 0 #f1ede6,1px 0 0 #f1ede6,-1px 0 0 #f1ede6,0 -1px 0 #f1ede6}.bevel-guide{position:absolute;z-index:12;pointer-events:none;box-sizing:border-box;width:22px;height:22px}.bevel-guide.left{left:2px}.bevel-guide.right{right:2px}.bevel-guide.top{top:2px}.bevel-guide.bottom{bottom:2px}.bevel-guide.left.top{border-top:2px dashed #111;border-left:2px dashed #111}.bevel-guide.right.top{border-top:2px dashed #111;border-right:2px dashed #111}.bevel-guide.left.bottom{border-bottom:2px dashed #111;border-left:2px dashed #111}.bevel-guide.right.bottom{border-bottom:2px dashed #111;border-right:2px dashed #111}.corner-note.tl{left:28px;top:4px}.corner-note.tr{right:28px;top:4px}.corner-note.bl{left:28px;bottom:4px}.corner-note.br{right:28px;bottom:4px}
+
+.compact-control{width:100%;display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;margin:12px 0 7px;padding:13px 14px;border:1px solid #68747d;border-radius:13px;background:#303941;color:#fff;text-align:right}.compact-control strong{font-size:12px;color:#f2c08c;font-weight:600}.quick-modal{display:none;position:fixed;inset:0;background:#0009;z-index:120;padding:18px;align-items:center;justify-content:center}.quick-modal.open{display:flex}.quick-modal>section{width:min(100%,420px);background:#39434c;border:1px solid #d3a46f;border-radius:18px;padding:16px;box-shadow:0 18px 60px #0008}.modal-head{display:flex;align-items:center;justify-content:space-between;font-size:19px;margin-bottom:18px}.modal-x{border:0;background:transparent;color:#fff;font-size:22px;padding:5px 9px}.modal-field{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:13px 0}.modal-field select{flex:1;background:#eae7e3;color:#111;border:0;border-radius:10px;padding:11px}.distance-box{display:flex;align-items:center;background:#eae7e3;color:#111;border-radius:10px;overflow:hidden}.distance-box input{width:110px;border:0;background:transparent;padding:11px;text-align:center;font-weight:700}.distance-box span{padding:0 10px}.segmented{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:14px 0}.segmented button{padding:12px;border:1px solid #c8c5c0;background:#e9e6e2;color:#111;border-radius:11px;font-weight:800}.segmented button.on{background:#efb16c;border-color:#efb16c}.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}.modal-actions .primary{background:#2b9852;color:#fff;border-color:#2b9852;min-width:110px}.modal-actions .danger{color:#9b2525}.toggle-line{display:flex;justify-content:space-between;align-items:center;background:#303941;padding:12px;border-radius:11px}.toggle-line input{width:22px;height:22px;accent-color:#e8a55f}
+
+/* 0.4.6: auto-equal front/back when one side is empty, and clearer dashed L-shape slope marks */
+.stone-wrap{position:relative;min-width:0;padding:54px 0 64px;overflow:visible}
+.stone-wrap .stone{width:100%;height:auto;aspect-ratio:4.8/1;min-height:92px}
+.corner-control{position:absolute;z-index:18;display:flex;flex-direction:column;align-items:center;gap:3px;width:48px}
+.corner-control.tl{left:2px;top:2px}.corner-control.tr{right:2px;top:2px}.corner-control.bl{left:2px;bottom:2px}.corner-control.br{right:2px;bottom:2px}
+.corner-control button{width:30px;height:27px;padding:0;border:1px solid #8c6b49;background:#eeeae4;color:#9b571f;border-radius:7px;font-size:17px;line-height:25px}
+.corner-control button.on{background:#f0b26f;color:#111}
+.corner-control input{width:46px;height:29px;padding:3px;text-align:center;border:1px solid #aaa;border-radius:7px;background:#eae7e3;color:#111;font-weight:800;font-size:12px}
+.corner-control input:focus{outline:2px solid #e7a45f}
+.stone .corner-touch{display:none!important}
+.quick-modal{align-items:flex-start;overflow:auto;padding-top:max(14px,env(safe-area-inset-top))}
+.quick-modal>section{margin-top:8px;max-height:calc(100dvh - 28px);overflow:auto}
+@media(max-width:390px){.stone-wrap{padding-top:52px;padding-bottom:62px}.stone-wrap .stone{height:auto;aspect-ratio:4.5/1;min-height:88px}.corner-control input{width:44px}}
+
+/* 0.4.7 — tight packing, board menu, fullscreen zoom and font controls */
+.board{--board-zoom:1;--board-font-scale:1;transform-origin:center center}
+.board .piece-dim,.board .piece-caption,.board .piece-details,.board .corner-note,.board .measure-arrow .mtext{font-size:calc(10px * var(--board-font-scale))!important}
+.board-titlebar{display:flex;align-items:center;gap:7px;justify-content:space-between;margin-bottom:5px}.board-titletext{flex:1;min-width:0}.board-menu-btn{font-size:22px;line-height:1;padding:5px 11px}
+.board.full{overflow:auto!important;background:#eeeae4}.board.full .piece{font-size:calc(12px * var(--board-font-scale))}
+.board-menu{display:none;position:fixed;inset:0;background:#0008;z-index:90;padding:18px;align-items:center;justify-content:center}.board-menu.open{display:flex}.board-menu section{width:min(94vw,420px);background:#39434c;border:1px solid #b9a07d;border-radius:18px;padding:14px}.board-menu h3{margin:0 0 12px;color:#f2c08c}.board-menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.board-menu-grid .btn{width:100%}.board-menu .close-row{display:flex;justify-content:flex-end;margin-top:10px}
+@media print{body.print-one .card,body.print-one header{display:none!important}body.print-one #boardsCard{display:block!important;margin:0!important;padding:0!important;border:0!important}body.print-one #boardsCard>h2,body.print-one #boardsCard>.note,body.print-one #newBoard{display:none!important}body.print-one #boards>div{display:none!important}body.print-one #boards>div.print-target{display:block!important}body.print-one .board-titlebar .btn{display:none!important}body.print-one .board{border:1px solid #222!important}}
+
+/* 0.4.8: cleaner control panel — no instructional paragraphs; scissors opens seam settings */
+.seam-compact-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0}.seam-compact-row .seam-state{font-size:12px;color:#e8bd8d;flex:1;text-align:right}.seam-scissors{width:52px;height:48px;border-radius:13px;font-size:25px;padding:0;display:flex;align-items:center;justify-content:center}.stone-wrap{max-width:560px;margin-inline:auto}
+
+/* 0.4.9: keep control stone fully inside panel; stronger magnetic placement; safe rotation */
+.inline-row{grid-template-columns:46px minmax(0,1fr) 46px!important;gap:5px!important;overflow:visible}
+.stone-wrap{width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important;padding-left:0!important;padding-right:0!important}
+.stone-wrap .stone{width:100%!important;max-width:100%!important;aspect-ratio:3.5/1!important;min-height:86px!important}
+.inline-row>.field{width:46px!important;min-width:0!important}
+.inline-row>.field input{width:46px!important}
+@media(max-width:390px){.inline-row{grid-template-columns:42px minmax(0,1fr) 42px!important}.inline-row>.field,.inline-row>.field input{width:42px!important}.stone-wrap .stone{aspect-ratio:3.35/1!important;min-height:82px!important}}
+</style></head><body><header><h1>🪨 PRO STONE <small>0.4.9</small></h1><button class="btn" id="settingsBtn">⚙️ الإعدادات</button></header>
+<section class="card"><h2>واجهة التحكم</h2><div class="topline field"><label>طول الخلف</label><input id="back" type="number" min="0" step=".1" placeholder=""><span>سم</span></div><div class="inline-row"><div class="field"><label>العرض</label><input id="width" type="number" min="0" step=".1" placeholder=""></div><div class="stone-wrap" id="stoneWrap"><div class="corner-control tl"><button type="button" data-corner="tl">↖</button><input type="number" data-slope-input="tl" min="0" step=".1" inputmode="decimal" placeholder=""></div><div class="corner-control tr"><button type="button" data-corner="tr">↗</button><input type="number" data-slope-input="tr" min="0" step=".1" inputmode="decimal" placeholder=""></div><div class="stone" id="stone"><div id="seam" class="seam hidden"><span id="seamLabel"></span></div><div id="sink" class="fixture hidden">🚰<br>الحوض<span class="tag"></span></div><div id="hob" class="fixture hob hidden">♨ ♨ ♨<br>♨ ♨<span class="tag"></span></div></div><div class="corner-control bl"><button type="button" data-corner="bl">↙</button><input type="number" data-slope-input="bl" min="0" step=".1" inputmode="decimal" placeholder=""></div><div class="corner-control br"><button type="button" data-corner="br">↘</button><input type="number" data-slope-input="br" min="0" step=".1" inputmode="decimal" placeholder=""></div></div><div class="field"><label>الكمية ↘</label></div></div><div class="topline field"><label>طول الأمام</label><input id="front" type="number" min="0" step=".1" placeholder=""><span>سم</span></div><div class="measure-grid"><label>طول الأمام (سم)<input id="frontQuick" type="number" min="0" step=".1" placeholder=""></label><label>العرض (سم)<input id="widthQuick" type="number" min="0" step=".1" placeholder=""></label><label>الكمية<input id="qty" type="number" min="1" value="1"></label><label>الاسم<input id="pieceName" type="text" placeholder="اسم القطعة" autocomplete="off"></label></div><div class="seam-compact-row"><button type="button" class="btn seam-scissors" id="openSeam" aria-label="إعدادات الوصلة" title="إعدادات الوصلة">✂️</button><span class="seam-state" id="seamCompactText">غير مفعلة</span></div><div class="note" id="seamSummary"></div><input type="checkbox" id="seamEnabled" class="hidden"><select id="seamMode" class="hidden"><option value="manual">يدوي / Manuel</option><option value="start">Ocak başlangıcında</option><option value="end">Ocak bitişinden</option></select><div id="seamManual" class="hidden"><input id="seamDistance" type="number" min="0" step=".1"><select id="seamSide"><option value="left">من اليسار</option><option value="right">من اليمين</option></select></div><div class="merge-live"><b>دمج 3 سم / 45°</b><div class="joint"><label><input type="checkbox" data-edge="right">يمين</label><label><input type="checkbox" data-edge="front" checked>أمام</label><label><input type="checkbox" data-edge="back">خلف</label><label><input type="checkbox" data-edge="left">يسار</label></div></div><div id="slopeEditor" class="slope-editor hidden"><span id="slopeTitle"></span><input id="slopeValue" type="number"><button type="button" id="slopeClear"></button></div><button class="btn add-green" id="addPiece">＋ إضافة القطعة إلى اللوح</button><button class="btn small clear-compact" id="clearInput">🧹 تنظيف القياسات</button><div id="status" class="note" style="margin-top:8px"></div></section>
+<section class="card"><h2>🪨 الألواح المستخدمة</h2><div id="boards"></div><button class="btn small" id="newBoard" style="margin-top:9px">＋ لوح جديد</button></section><section class="card"><h2>📋 القطع</h2><div id="list" class="note">لا توجد قطع بعد.</div></section>
+<div class="board-actions" id="actions"><button class="btn small" data-act="move">نقل ✨</button><button class="btn small" data-act="rotate">استدارة ↻</button><button class="btn small" data-act="edit">تعديل المقاس</button><button class="btn small" data-act="delete">مسح</button><button class="btn small" data-act="close">إغلاق</button></div>
+<div class="quick-modal" id="fixtureModal"><section><div class="modal-head"><b id="editorTitle"></b><button type="button" class="modal-x" id="closeFixture">✕</button></div><div class="modal-field"><span id="distanceTitle"></span><div class="distance-box"><input id="distance" type="number" step=".1" inputmode="decimal" placeholder=""><span id="distanceUnit">سم</span></div></div><div class="segmented"><button type="button" id="sideLeft">← يسار</button><button type="button" id="sideRight">يمين →</button></div><div class="modal-actions"><button class="btn danger" id="removeFixture">إزالة</button><button class="btn primary" id="saveFixture">حفظ</button></div></section></div><div class="quick-modal" id="seamModal"><section><div class="modal-head"><b>✂️ الوصلة</b><button type="button" class="modal-x" id="closeSeam">✕</button></div><label class="toggle-line"><span>تفعيل الوصلة</span><input type="checkbox" id="seamToggleProxy"></label><div class="modal-field"><span>مكان الوصلة</span><select id="seamModeProxy"><option value="manual">يدوي / Manuel</option><option value="start">عند بداية البوتغاز</option><option value="end">عند نهاية البوتغاز</option></select></div><div id="seamProxyManual"><div class="modal-field"><span>مسافة الوصلة</span><div class="distance-box"><input id="seamDistanceProxy" type="number" min="0" step=".1" inputmode="decimal"><span>سم</span></div></div><div class="segmented"><button type="button" id="seamLeftProxy">← من اليسار</button><button type="button" id="seamRightProxy">من اليمين →</button></div></div><div class="modal-actions"><button class="btn primary" id="saveSeam">حفظ</button></div></section></div><div class="board-menu" id="boardMenu"><section><h3 id="boardMenuTitle">خيارات اللوح</h3><div class="board-menu-grid"><button class="btn" data-board-act="image">🖼️ حفظ كصورة</button><button class="btn" data-board-act="pdf">📄 PDF</button><button class="btn" data-board-act="print">🖨️ طباعة</button><button class="btn" data-board-act="share">📤 مشاركة</button><button class="btn" data-board-act="rename">✏️ تسمية اللوح</button><button class="btn" data-board-act="fullscreen">⛶ ملء الشاشة</button><button class="btn" data-board-act="zoomIn">🔍＋ تكبير</button><button class="btn" data-board-act="zoomOut">🔍− تصغير</button><button class="btn" data-board-act="fontIn">A＋ تكبير الخط</button><button class="btn" data-board-act="fontOut">A− تصغير الخط</button></div><div class="close-row"><button class="btn" id="closeBoardMenu">إغلاق</button></div></section></div><div class="settings" id="settings"><section><div class="row"><h2>⚙️ الإعدادات الرئيسية</h2><button class="btn" id="closeSettings">✕</button></div><div class="row"><label>اللغة</label><select id="language"><option value="ar">العربية</option><option value="tr">Türkçe</option><option value="en">English</option></select></div><div class="row"><label>وحدة العرض</label><select id="unit"><option value="cm">سم</option><option value="mm">مم</option></select></div><h3>نوع الحجر</h3><div class="material-row"><label>نوع الحجر<select id="material"><option value="porcelain">بورسلان</option><option value="quartz">شمستون</option><option value="belenco">بلنكو</option><option value="granite">غرانيت</option></select></label><span class="note">مظهر تقريبي للحجر على اللوح</span></div><h3>مقاسات الألواح (سم)</h3><div class="row"><label>الطول</label><input id="boardL" type="number" value="320"><label>العرض</label><input id="boardW" type="number" value="160"><button class="btn small" id="addBoardSize">إضافة مقاس</button></div><div id="boardSizes" class="note"></div><h3>إعدادات الحوض والبوتغاز (سم)</h3><div class="row"><label>الحوض: طول</label><input id="sinkL" type="number" value="50"><label>عرض</label><input id="sinkW" type="number" value="40"></div><div class="row"><label>البوتغاز: طول</label><input id="hobL" type="number" value="56"><label>عرض</label><input id="hobW" type="number" value="49"></div><div class="row"><label>سماحية الدمج (سم)</label><input id="allowance" type="number" value="3" step=".1"></div><div class="grid2"><button class="btn" id="save">💾 حفظ المشروع</button><button class="btn" id="load">📂 استرجاع مشروع</button><button class="btn" id="print">🖨️ طباعة / PDF</button><button class="btn" id="saveImage">🖼️ حفظ صورة اللوح</button><button class="btn" id="share">📤 مشاركة التطبيق</button><button class="btn" id="reset">🧹 مسح الكل</button></div><p class="note">الحفظ كملف JSON. الطباعة إلى PDF متاحة من خيار الطباعة في الهاتف. الصورة للوح الأول.</p></section></div><div id="toast"></div><input type="file" id="file" accept="application/json" hidden>
+<script>
+'use strict';
+const $=id=>document.getElementById(id),n=id=>Math.max(0,(Number($(id).value)||0)*((unit==='mm'&&['back','front','width'].includes(id))?.1:1)),fmt=x=>Number(x.toFixed(1)).toString();let items=[],boardSpecs=[{l:320,w:160}],boards=[],active=null,selectedPiece=null,drag=null,hold=null,lastTap=0,angleR=0,angleL=0,unit='cm',name='';const openings={sink:{show:false,x:0,side:'right'},hob:{show:false,x:0,side:'right'}};let seamPos=0,activeCorner=null,activeBoardMenu=-1;const boardNames={},boardViews={};const slopes={tl:0,tr:0,bl:0,br:0};const edges=()=>Object.fromEntries([...document.querySelectorAll('[data-edge]')].map(x=>[x.dataset.edge,x.checked]));function toast(s){$('toast').textContent=s;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',3000)}function faceValues(){const front=n('front'),back=n('back');if(front>0&&back>0)return {front,back};if(front>0)return {front,back:front};if(back>0)return {front:back,back};return {front:0,back:0}}function frontValue(){return faceValues().front}function backValue(){return faceValues().back}function length(){const faces=faceValues();return Math.max(faces.front,faces.back)}function convert(v){return unit==='mm'?fmt(v*10):fmt(v)}function parseUnit(v){return unit==='mm'?Number(v)/10:Number(v)}function syncUnit(){document.querySelectorAll('.field span').forEach(e=>{if(e.textContent==='سم'||e.textContent==='مم')e.textContent=unit==='mm'?'مم':'سم'});$('distanceUnit').textContent=unit==='mm'?'مم':'سم'}
+function position(type){let o=openings[type],total=length(),w=n(type==='sink'?'sinkL':'hobL');return o.side==='right'?(type==='sink'?total-o.x:total-o.x-w):(type==='sink'?o.x:o.x)}function distanceOf(type,left){let total=length(),w=n(type==='sink'?'sinkL':'hobL'),o=openings[type];return o.side==='right'?(type==='sink'?total-left:total-left-w):left}
+function bevelPolygon(front,back,rightAngle){
+ const mx=Math.max(front,back);if(!mx||Math.abs(front-back)<.001)return 'polygon(0 0,100% 0,100% 100%,0 100%)';
+ const shift=Math.min(95,Math.abs(front-back)/mx*100);
+ if(rightAngle){return front>back?`polygon(${shift}% 0,100% 0,100% 100%,0 100%)`:`polygon(0 0,100% 0,100% 100%,${shift}% 100%)`}
+ return front>back?`polygon(0 0,${100-shift}% 0,100% 100%,0 100%)`:`polygon(0 0,100% 0,${100-shift}% 100%,0 100%)`;
+}
+function slopePolygon(front,back,sl){
+ const mx=Math.max(front,back); if(!mx||Math.abs(front-back)<.001)return 'polygon(0 0,100% 0,100% 100%,0 100%)';
+ const diff=Math.abs(front-back), entries=Object.entries(sl||{}).filter(([,v])=>Number(v)>0);
+ let chosen=entries.length?entries[0]:null, v=chosen?Math.min(diff,Math.max(0,Number(chosen[1])||0)):0;
+ let chosenLeft=chosen?chosen[0].endsWith('l'):true, left=chosenLeft?v:diff-v, right=chosenLeft?diff-v:v;
+ const lp=Math.min(48,left/mx*100),rp=Math.min(48,right/mx*100);
+ // The longer measured edge stays full-size; the shorter edge is inset. This makes the slope extend toward the longer/outward side.
+ return back>front?`polygon(0 0,100% 0,${100-rp}% 100%,${lp}% 100%)`:`polygon(${lp}% 0,${100-rp}% 0,100% 100%,0 100%)`;
+}
+function draw(){let total=length(),wid=n('width'),stone=$('stone');const faces=faceValues();stone.style.clipPath=slopePolygon(faces.front,faces.back,slopes);for(let type of ['sink','hob']){let o=openings[type],el=$(type);el.classList.remove('hidden');el.classList.toggle('inactive',!o.show);
+ // Control-panel fixtures are buttons, not a scaled engineering drawing: hob fixed left, sink fixed right.
+ el.style.left=(type==='hob'?'17%':'70%');el.style.width=(type==='hob'?'18%':'17%');el.style.height='52%';el.style.top='24%';el.querySelector('.tag').textContent='';}
+let enabled=$('seamEnabled').checked;if(enabled){const mode=$('seamMode').value;if(mode!=='manual'&&openings.hob.show){seamPos=position('hob')+(mode==='end'?n('hobL'):0)}else if(mode==='manual'){const d=parseUnit($('seamDistance').value);seamPos=$('seamSide').value==='right'?total-d:d;}}$('seamManual').classList.toggle('hidden',$('seamMode').value!=='manual');$('seam').classList.toggle('hidden',!enabled);$('seam').style.left=(total?Math.max(0,Math.min(100,seamPos/total*100)):50)+'%';$('seamLabel').textContent='وصلة '+fmt(Math.max(0,total-seamPos))+' سم';$('seamSummary').textContent=enabled?'الأساسية '+fmt(seamPos)+' سم | الوصلة '+fmt(Math.max(0,total-seamPos))+' سم':'';document.querySelectorAll('[data-corner]').forEach(b=>b.classList.toggle('on',Number(slopes[b.dataset.corner])>0));document.querySelectorAll('[data-slope-input]').forEach(inp=>{const v=Number(slopes[inp.dataset.slopeInput])||0;if(document.activeElement!==inp)inp.value=v?fmt(v):''});}
+function editFixture(type){active=type;for(let t of ['sink','hob'])$(t).classList.toggle('active',t===type);$('fixtureModal').classList.add('open');$('editorTitle').textContent=type==='sink'?'🚰 الحوض':'🔥 البوتغاز';$('distanceTitle').textContent=type==='sink'?'المسافة إلى المركز':'المسافة إلى بداية الفتحة';$('distance').value=openings[type].x?convert(openings[type].x):'';updateSideButtons();}
+function moveFixture(type,e){let rect=$('stone').getBoundingClientRect(),total=length();if(!total)return;let fw=n(type==='sink'?'sinkL':'hobL');let left=Math.max(0,Math.min(total-fw,(e.clientX-rect.left)/rect.width*total));let val=distanceOf(type,left);openings[type].x=Math.max(0,Math.round(val*10)/10);if(active===type)$('distance').value=openings[type].x?convert(openings[type].x):'';draw()}
+for(let type of ['sink','hob']){$(type).addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();if(!openings[type].show)openings[type].show=true;draw();editFixture(type);});}$('distance').oninput=()=>{if(!active)return;openings[active].x=Math.max(0,parseUnit($('distance').value));draw()};function updateSideButtons(){if(!active)return;$('sideLeft').classList.toggle('on',openings[active].side==='left');$('sideRight').classList.toggle('on',openings[active].side==='right')} $('sideLeft').onclick=()=>{if(active){openings[active].side='left';updateSideButtons();draw()}};$('sideRight').onclick=()=>{if(active){openings[active].side='right';updateSideButtons();draw()}};$('removeFixture').onclick=()=>{if(active)openings[active].show=false;$('fixtureModal').classList.remove('open');active=null;draw()};
+$('seam').addEventListener('pointerdown',e=>{if($('seamMode').value!=='manual')return;e.stopPropagation();$('seam').setPointerCapture(e.pointerId);drag={type:'seam'};});$('seam').addEventListener('pointermove',e=>{if(drag?.type!=='seam'||$('seamMode').value!=='manual')return;let r=$('stone').getBoundingClientRect();seamPos=Math.round(Math.max(0,Math.min(length(),(e.clientX-r.left)/r.width*length()))*10)/10;const d=$('seamSide').value==='right'?length()-seamPos:seamPos;$('seamDistance').value=convert(d);draw()});$('seam').addEventListener('pointerup',()=>drag=null);$('seamEnabled').onchange=draw;$('seamMode').onchange=()=>{$('seamEnabled').checked=true;draw()};$('seamDistance').oninput=()=>{$('seamEnabled').checked=true;draw()};$('seamSide').onchange=draw;
+['back','front','width','qty'].forEach(id=>$(id).addEventListener('input',draw));document.querySelectorAll('[data-corner]').forEach(btn=>btn.onclick=()=>{const k=btn.dataset.corner;const inp=document.querySelector('[data-slope-input="'+k+'"]');if(inp)inp.focus()});document.querySelectorAll('[data-slope-input]').forEach(inp=>{inp.addEventListener('input',()=>{const k=inp.dataset.slopeInput,v=Math.max(0,Number(inp.value)||0);for(const key of Object.keys(slopes))if(key!==k)slopes[key]=0;slopes[k]=v;document.querySelectorAll('[data-slope-input]').forEach(other=>{if(other!==inp)other.value=''});draw()})});$('pieceName').addEventListener('input',e=>{name=e.target.value.trim()});for(const [quick,main] of [['frontQuick','front'],['widthQuick','width']]){let busy=false;for(const [from,to] of [[quick,main],[main,quick]])$(from).addEventListener('input',()=>{if(busy)return;busy=true;$(to).value=$(from).value;draw();busy=false})}
+function rectangles(){return items.flatMap(item=>item.parts.map(p=>({...p,group:item.id,name:item.name}))) }function pack(){boards=[];let rects=rectangles().sort((a,b)=>b.l*b.w-a.l*a.w);for(let p of rects){let placed=false;for(let bi=0;bi<boards.length&&!placed;bi++)placed=put(boards[bi],p);if(!placed){for(let spec of boardSpecs){let b={l:spec.l,w:spec.w,placed:[],free:[{x:0,y:0,l:spec.l,w:spec.w}]};if(put(b,p)){boards.push(b);placed=true;break}}}if(!placed){
+ p.unplaced=true;
+ const maxL=Math.max(...boardSpecs.map(x=>x.l)),maxW=Math.max(...boardSpecs.map(x=>x.w));
+ toast('القطعة '+p.name+' '+fmt(p.l)+'×'+fmt(p.w)+' أكبر من اللوح '+fmt(maxL)+'×'+fmt(maxW));
+ }}renderBoards();renderUnplaced()}
+function renderUnplaced(){
+ let host=$('boards'),old=document.getElementById('unplacedNotice');if(old)old.remove();
+ const un=rectangles().filter(p=>!boards.some(b=>b.placed.some(q=>q.group===p.group&&q.part===p.part)));
+ if(!un.length)return;let box=document.createElement('div');box.id='unplacedNotice';box.className='note';box.style.cssText='margin-top:10px;padding:10px;border:1px solid #e7a45f;border-radius:10px;color:#ffd2a3';
+ box.textContent='⚠️ قطع لم تدخل على اللوح: '+un.map(p=>p.name+' '+fmt(p.l)+'×'+fmt(p.w)).join('، ')+' — غيّر المقاس أو أضف لوحاً أكبر.';host.append(box);
+}
+function put(b,p){for(let i=0;i<b.free.length;i++){let r=b.free[i],angled=Math.abs(Number(p.fullFront||p.frontEdge||p.l)-Number(p.fullBack||p.backEdge||p.l))>.001;let fits=p.l<=r.l+.001&&p.w<=r.w+.001,rot=!angled&&p.w<=r.l+.001&&p.l<=r.w+.001;if(!fits&&!rot)continue;let l=fits?p.l:p.w,w=fits?p.w:p.l,gap=0;b.placed.push({...p,x:r.x,y:r.y,l,w,rotated:!fits});b.free.splice(i,1);if(r.l-l-gap>.001)b.free.push({x:r.x+l+gap,y:r.y,l:r.l-l-gap,w:r.w});if(r.w-w-gap>.001)b.free.push({x:r.x,y:r.y+w+gap,l:l,w:r.w-w-gap});return true}return false}
+function renderBoards(){let host=$('boards');host.innerHTML='';boards.forEach((b,bi)=>{let wrap=document.createElement('div');wrap.style.marginTop='12px';wrap.dataset.boardWrap=bi;let title=document.createElement('div');title.className='note board-titlebar';let titleText=document.createElement('span');titleText.className='board-titletext';titleText.textContent=(boardNames[bi]||('لوح '+(bi+1)))+' — '+b.l+' × '+b.w+' سم';title.append(titleText);const menuBtn=document.createElement('button');menuBtn.type='button';menuBtn.className='btn small board-menu-btn';menuBtn.textContent='⋮';menuBtn.title='خيارات اللوح';menuBtn.onclick=()=>openBoardMenu(bi);title.append(menuBtn);const delBoard=document.createElement('button');delBoard.type='button';delBoard.className='btn small';delBoard.textContent='×';delBoard.title='حذف اللوح';delBoard.style.cssText='font-size:24px;padding:2px 13px;color:#b11';delBoard.onclick=()=>{if(!confirm('حذف هذا اللوح والقطع الموجودة عليه من المشروع؟'))return;const groups=new Set(b.placed.map(p=>p.group));items=items.filter(it=>!groups.has(it.id));boards.splice(bi,1);for(const board of boards)board.placed=board.placed.filter(p=>!groups.has(p.group));renderBoards();renderList();toast('تم حذف اللوح والقطع التابعة له')};title.append(delBoard);wrap.append(title);let el=document.createElement('div');el.className='board';el.style.aspectRatio=b.l+' / '+b.w;el.style.setProperty('--board-ratio',b.l/b.w);const view=boardViews[bi]||(boardViews[bi]={zoom:1,font:1});el.style.setProperty('--board-font-scale',view.font);el.dataset.board=bi;el.addEventListener('dblclick',()=>{el.classList.toggle('full');view.zoom=1;el.style.transform='scale(1)'});b.placed.forEach((p,pi)=>{let part=document.createElement('div');part.className='piece material-'+(p.material||'porcelain');part.style.cssText=`left:${p.x/b.l*100}%;top:${p.y/b.w*100}%;width:${p.l/b.l*100}%;height:${p.w/b.w*100}%`;part.textContent='';part.style.overflow='visible';
+// Dimension labels: place within edges; compact for narrow seam pieces.
+const label=(cls,value)=>{const e=document.createElement('span');e.className='piece-dim '+cls;e.textContent=fmt(unit==='mm'?value*10:value);part.append(e);return e};
+const nominalLength=p.nominalL||p.l,nominalWidth=p.nominalW||p.w;
+if(p.frontEdge!=null&&p.backEdge!=null){part.style.clipPath=(p.part==='كاملة'?slopePolygon(Number(p.fullFront||p.frontEdge),Number(p.fullBack||p.backEdge),p.slopes):bevelPolygon(p.frontEdge,p.backEdge,!!p.angleR&&!p.angleL))}
+const shortPart=p.l<70;
+part.classList.toggle('narrow-piece',shortPart);
+label('piece-dim-l',p.backEdge??nominalLength);
+label('piece-dim-bottom',p.frontEdge??nominalLength);
+label('piece-dim-w',nominalWidth);
+const caption=document.createElement('span');caption.className='piece-caption';caption.textContent=p.name+(p.part&&p.part!=='كاملة'?' — '+p.part:'');part.append(caption);
+const corners=[p.angleL?'◣ يسار 90°':'',p.angleR?'◢ يمين 90°':''].filter(Boolean);
+if(corners.length){const details=document.createElement('span');details.className='piece-details';details.textContent=corners.join(' · ');part.append(details)}
+if(p.mergeEdges){for(const edge of ['front','back','left','right']){if(!p.mergeEdges[edge])continue;
+// Physical 45-degree miter strip: width in centimetres, scaled to this cut piece.
+const strip=document.createElement('span');strip.className='miter-strip miter-'+edge;
+const allowance=Math.max(0,Number(p.allowance??3));
+const horizontal=edge==='front'||edge==='back';
+const physicalSize=horizontal?p.w:p.l;
+const pct=physicalSize>0?Math.min(100,allowance/physicalSize*100):0;
+if(horizontal)strip.style.height=pct+'%';else strip.style.width=pct+'%';
+strip.title='شطف 45° — قطعة '+fmt(allowance)+' سم';part.append(strip)
+}}
+for(const type of ['sink','hob']){const f=p.fixtures?.[type];if(!f?.show)continue;const visualL=f.l>0?f.l:Math.min(50,(p.nominalL||p.l)*.18);const visualW=f.w>0?f.w:Math.min(40,p.w*.5);const from=Math.max(p.origin||0,f.x-(type==='sink'?visualL/2:0));const to=Math.min((p.origin||0)+(p.nominalL||p.l),f.x+(type==='sink'?visualL/2:visualL));if(to<=from){if(f.l===0){ /* preview is allowed to be schematic at the edge */ }else continue;}const symbol=document.createElement('div');symbol.className='piece-opening '+type;symbol.textContent=type==='sink'?'🚰':'● ● ● ● ●';symbol.title=f.l&&f.w?'فتحة بالمقاسات المدخلة':'رمز توضيحي فقط — أدخل أبعاد الفتحة من الإعدادات';const left=(from-(p.origin||0))/(p.nominalL||p.l)*100;const width=Math.max(0,to-from)/(p.nominalL||p.l)*100;symbol.style.left=Math.max(0,Math.min(98,left))+'%';symbol.style.width=Math.max(8,Math.min(100-left,width||13))+'%';symbol.style.height=(visualW&&p.w?Math.max(22,Math.min(85,visualW/p.w*100)):55)+'%';part.append(symbol)}
+
+// Shop-floor measurement arrows for sink centre and hob start, showing the chosen reference side.
+for(const type of ['sink','hob']){const f=p.fixtures?.[type];if(!f?.show)continue;const pieceStart=p.origin||0,pieceEnd=pieceStart+(p.nominalL||p.l);let target=f.x;if(type==='sink')target=f.x; if(target<pieceStart||target>pieceEnd)continue;const local=(target-pieceStart)/(p.nominalL||p.l)*100;const arrow=document.createElement('span');arrow.className='measure-arrow';const side=f.side||'right';if(side==='left'){arrow.style.left='0%';arrow.style.width=Math.max(2,local)+'%'}else{arrow.style.left=Math.min(98,local)+'%';arrow.style.width=Math.max(2,100-local)+'%'}arrow.style.top=type==='sink'?'42%':'64%';const tx=document.createElement('span');tx.className='mtext';tx.textContent=fmt(f.distance??0);arrow.append(tx);part.append(arrow)}
+if(p.slopes){
+ const totalLen=Math.max(Number(p.fullFront||0),Number(p.fullBack||0),Number(p.fullLength||0),1);
+ const diff=Math.abs(Number(p.fullFront||0)-Number(p.fullBack||0));
+ const chosen=Object.entries(p.slopes).find(([,v])=>Number(v)>0);
+ if(chosen){
+  const [k,raw]=chosen,v=Math.max(0,Number(raw)||0),other=Math.max(0,diff-v);
+  const chosenLeft=k==='tl'||k==='bl';
+  const leftVal=chosenLeft?v:other,rightVal=chosenLeft?other:v;
+  const atLeft=Math.abs(Number(p.origin||0))<.01;
+  const atRight=Math.abs((Number(p.origin||0)+Number(p.nominalL||p.l))-totalLen)<.05;
+  const top=k==='tl'||k==='tr';
+  const addMark=(side,val)=>{if(val<=0)return;const note=document.createElement('span');note.className='corner-note '+(side==='left'?(top?'tl':'bl'):(top?'tr':'br'));const arrow=side==='left'?(top?'↖':'↙'):(top?'↗':'↘');note.textContent='شطب '+arrow+' '+fmt(val);part.append(note);const g=document.createElement('span');g.className='bevel-guide '+side+' '+(top?'top':'bottom');part.append(g)};
+  if(atLeft)addMark('left',leftVal); if(atRight)addMark('right',rightVal);
+ }
+}
+part.dataset.pi=pi;
+part.addEventListener('pointerdown',e=>{
+ if(e.button!==0)return;
+ e.preventDefault();e.stopPropagation();
+ selectedPiece={bi,pi};part.setPointerCapture(e.pointerId);
+ drag={type:'piece',bi,pi,startX:e.clientX,startY:e.clientY,moved:false,part,original:p};
+ clearTimeout(hold);hold=setTimeout(()=>{if(drag&&!drag.moved)$('actions').classList.add('show')},650);
+});
+part.addEventListener('pointermove',e=>{
+ if(!drag||drag.type!=='piece'||drag.part!==part)return;
+ const d=drag,dx=e.clientX-d.startX,dy=e.clientY-d.startY;
+ if(Math.hypot(dx,dy)>7){d.moved=true;clearTimeout(hold);$('actions').classList.remove('show')}
+ if(!d.moved)return;
+ // Floating preview follows the finger across every board, without changing the original placement.
+ if(!d.ghost){d.ghost=part.cloneNode(true);d.ghost.classList.add('drag-preview');document.body.append(d.ghost)}
+ const bounds=part.getBoundingClientRect();
+ d.ghost.style.width=bounds.width+'px';d.ghost.style.height=bounds.height+'px';
+ d.ghost.style.left=(e.clientX-bounds.width/2)+'px';d.ghost.style.top=(e.clientY-bounds.height/2)+'px';
+ const candidate=findDrop(e.clientX,e.clientY,p,bi,pi);
+ d.candidate=candidate;
+ d.ghost.style.borderColor=candidate?.ok?'#26a64c':'#d04444';
+ d.ghost.style.backgroundColor=candidate?.ok?'#a9e5b5':'#f4aaaa';
+});
+function finishPiece(e){
+ if(!drag||drag.type!=='piece'||drag.part!==part)return;
+ clearTimeout(hold);const d=drag;
+ if(d.ghost)d.ghost.remove();
+ if(d.moved){
+ const c=findDrop(e.clientX,e.clientY,p,bi,pi);
+ if(c?.ok){
+  const moved={...p,x:c.x,y:c.y,l:c.l,w:c.w,rotated:!!(p.rotated!==c.rotated)};
+  boards[bi].placed.splice(pi,1);boards[c.bi].placed.push(moved);
+ }else toast('المكان غير مناسب — جرّب فراغاً آخر');
+ renderBoards();
+ }
+ drag=null;
+}
+part.addEventListener('pointerup',finishPiece);
+part.addEventListener('pointercancel',e=>{clearTimeout(hold);if(drag?.ghost)drag.ghost.remove();drag=null;renderBoards()});el.append(part)});wrap.append(el);host.append(wrap)})}
+
+function findDrop(cx,cy,p,originBi,originPi){
+ const candidates=[...document.querySelectorAll('.board[data-board]')];
+ for(const node of candidates){
+  const r=node.getBoundingClientRect();if(cx<r.left||cx>r.right||cy<r.top||cy>r.bottom)continue;
+  const bi=Number(node.dataset.board),b=boards[bi],gap=0,snap=12;
+  const others=b.placed.filter((_,j)=>bi!==originBi||j!==originPi);
+  const angled=Math.abs(Number(p.fullFront||p.frontEdge||p.l)-Number(p.fullBack||p.backEdge||p.l))>.001;
+  for(const [l,w,rotated] of (angled?[[p.l,p.w,!!p.rotated]]:[[p.l,p.w,!!p.rotated],[p.w,p.l,!p.rotated]])){
+   if(l>b.l||w>b.w)continue;
+   let x=Math.max(0,Math.min(b.l-l,(cx-r.left)/r.width*b.l-l/2));
+   let y=Math.max(0,Math.min(b.w-w,(cy-r.top)/r.height*b.w-w/2));
+   const xs=[0,b.l-l],ys=[0,b.w-w];
+   for(const q of others){xs.push(q.x,q.x+q.l+gap,q.x-l-gap,q.x+q.l-l);ys.push(q.y,q.y+q.w+gap,q.y-w-gap,q.y+q.w-w)}
+   const nearest=(v,arr,min,max)=>{let best=v,dist=snap+1;for(const a of arr){const d=Math.abs(v-a);if(d<dist&&a>=min&&a<=max){best=a;dist=d}}return best};
+   x=nearest(x,xs,0,b.l-l);y=nearest(y,ys,0,b.w-w);
+   const free=others.every(q=>x+l+gap<=q.x||q.x+q.l+gap<=x||y+w+gap<=q.y||q.y+q.w+gap<=y);
+   if(free)return{ok:true,bi,x:Math.round(x*10)/10,y:Math.round(y*10)/10,l,w,rotated};
+  }
+  return{ok:false,bi};
+ }
+ return null;
+}
+
+function nearestPlacementOnBoard(b,p,wantL,wantW,originPi){
+ const others=b.placed.filter((_,j)=>j!==originPi),gap=0;
+ if(wantL>b.l+.001||wantW>b.w+.001)return null;
+ const xs=[0,b.l-wantL],ys=[0,b.w-wantW];
+ for(const q of others){xs.push(q.x,q.x+q.l,q.x-wantL,q.x+q.l-wantL);ys.push(q.y,q.y+q.w,q.y-wantW,q.y+q.w-wantW)}
+ let best=null,bestD=Infinity;
+ for(const x0 of xs)for(const y0 of ys){const x=Math.max(0,Math.min(b.l-wantL,x0)),y=Math.max(0,Math.min(b.w-wantW,y0));const free=others.every(q=>x+wantL+gap<=q.x+.001||q.x+q.l+gap<=x+.001||y+wantW+gap<=q.y+.001||q.y+q.w+gap<=y+.001);if(!free)continue;const d=Math.hypot(x-p.x,y-p.y);if(d<bestD){bestD=d;best={x:Math.round(x*10)/10,y:Math.round(y*10)/10}}}
+ return best;
+}
+function openBoardMenu(bi){activeBoardMenu=bi;const b=boards[bi];if(!b)return;$('boardMenuTitle').textContent=(boardNames[bi]||('لوح '+(bi+1)))+' — خيارات';$('boardMenu').classList.add('open')}
+$('closeBoardMenu').onclick=()=>$('boardMenu').classList.remove('open');
+function boardCanvas(b,bi){const c=document.createElement('canvas');c.width=1400;c.height=Math.max(500,Math.round(1400*b.w/b.l));const ctx=c.getContext('2d');ctx.fillStyle='#f1eee7';ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle='#777';ctx.lineWidth=3;ctx.strokeRect(1,1,c.width-2,c.height-2);ctx.fillStyle='#111';ctx.font='bold 24px sans-serif';ctx.fillText(boardNames[bi]||('لوح '+(bi+1)),18,32);for(const p of b.placed){const x=p.x/b.l*c.width,y=p.y/b.w*c.height,w=p.l/b.l*c.width,h=p.w/b.w*c.height;ctx.fillStyle='#d9e3e3';ctx.fillRect(x,y,w,h);ctx.strokeStyle='#324c59';ctx.lineWidth=2;ctx.strokeRect(x,y,w,h);ctx.fillStyle='#111';ctx.font='bold 18px sans-serif';ctx.fillText((p.name||'')+' '+fmt(p.nominalL||p.l)+'×'+fmt(p.nominalW||p.w),x+5,y+22)}return c}
+function downloadBoardImage(bi){const b=boards[bi];if(!b)return;boardCanvas(b,bi).toBlob(blob=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(boardNames[bi]||('PRO_STONE_board_'+(bi+1)))+'.png';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)},'image/png')}
+function printOneBoard(bi,pdf=false){const wrap=document.querySelector('[data-board-wrap="'+bi+'"]');if(!wrap)return;document.querySelectorAll('[data-board-wrap]').forEach(x=>x.classList.remove('print-target'));wrap.classList.add('print-target');document.body.classList.add('print-one');$('boardMenu').classList.remove('open');if(pdf)toast('من نافذة الطباعة اختر: حفظ كـ PDF');setTimeout(()=>window.print(),80);setTimeout(()=>{document.body.classList.remove('print-one');wrap.classList.remove('print-target')},1000)}
+async function shareBoard(bi){const b=boards[bi];if(!b)return;const blob=await new Promise(res=>boardCanvas(b,bi).toBlob(res,'image/png'));const file=new File([blob],(boardNames[bi]||('board_'+(bi+1)))+'.png',{type:'image/png'});if(navigator.share){try{if(navigator.canShare?.({files:[file]}))await navigator.share({title:boardNames[bi]||'PRO STONE',files:[file]});else await navigator.share({title:boardNames[bi]||'PRO STONE',text:'PRO STONE'});}catch(e){}}else toast('المشاركة غير مدعومة في هذا المتصفح')}
+function boardZoom(bi,delta){const v=boardViews[bi]||(boardViews[bi]={zoom:1,font:1});v.zoom=Math.max(.6,Math.min(2.5,v.zoom+delta));const el=document.querySelector('.board[data-board="'+bi+'"]');if(el)el.style.transform='scale('+v.zoom+')'}
+function boardFont(bi,delta){const v=boardViews[bi]||(boardViews[bi]={zoom:1,font:1});v.font=Math.max(.65,Math.min(2.2,v.font+delta));const el=document.querySelector('.board[data-board="'+bi+'"]');if(el)el.style.setProperty('--board-font-scale',v.font)}
+document.querySelectorAll('[data-board-act]').forEach(btn=>btn.onclick=async()=>{const bi=activeBoardMenu;if(bi<0||!boards[bi])return;const act=btn.dataset.boardAct;if(act==='image')downloadBoardImage(bi);if(act==='pdf')printOneBoard(bi,true);if(act==='print')printOneBoard(bi,false);if(act==='share')await shareBoard(bi);if(act==='rename'){const v=prompt('اسم اللوح',boardNames[bi]||('لوح '+(bi+1)));if(v?.trim()){boardNames[bi]=v.trim();renderBoards()}}if(act==='fullscreen'){const el=document.querySelector('.board[data-board="'+bi+'"]');if(el)el.classList.toggle('full')}if(act==='zoomIn')boardZoom(bi,.15);if(act==='zoomOut')boardZoom(bi,-.15);if(act==='fontIn')boardFont(bi,.12);if(act==='fontOut')boardFont(bi,-.12);if(!['zoomIn','zoomOut','fontIn','fontOut'].includes(act))$('boardMenu').classList.remove('open')});
+
+$('addPiece').onclick=()=>{const faces=faceValues();let l=length(),w=n('width'),q=n('qty');if(!name){toast('اكتب اسم القطعة في خانة الاسم');return}if(!l||!w||!q){toast('أدخل الطول والعرض والكمية');return}let a=n('allowance'),ed=edges(),parts=[];
+// Resolve seam location independently or against the start/end of the hob.
+if($('seamEnabled').checked){
+ const mode=$('seamMode').value;
+ if(mode!=='manual'){
+  if(!openings.hob.show){toast('فعّل البوتغاز أولاً لتحديد الوصلة عند الفتحة');return}
+  if(n('hobL')<=0){toast('حدد طول فتحة البوتغاز من الإعدادات');return}
+  seamPos=Math.max(0,Math.min(l,position('hob')+(mode==='end'?n('hobL'):0)));
+ }else{const d=parseUnit($('seamDistance').value);seamPos=$('seamSide').value==='right'?l-d:d;}
+}
+let addL=(ed.left?a:0)+(ed.right?a:0),addW=(ed.front?a:0)+(ed.back?a:0);for(let i=0;i<q;i++){if($('seamEnabled').checked){if(seamPos<=0||seamPos>=l){toast('حدد مكان وصلة صالح');return}parts.push({l:seamPos+addL,w:w+addW,part:'أساسية',origin:0,nominalL:seamPos,nominalW:w,angleL:angleL,angleR:false});parts.push({l:l-seamPos+addL,w:w+addW,part:'وصلة',origin:seamPos,nominalL:l-seamPos,nominalW:w,angleL:false,angleR:angleR})}else parts.push({l:l+addL,w:w+addW,part:'كاملة',origin:0,nominalL:l,nominalW:w,angleL,angleR})}// The long section is the primary piece, regardless of which side of the seam it lies on.
+if($('seamEnabled').checked&&parts.length){const primaryOrigin=$('seamMode').value==='end'?0:$('seamMode').value==='start'?seamPos:angleR&&!angleL?seamPos:angleL&&!angleR?0:(seamPos>=l-seamPos?0:seamPos);for(const part of parts){part.part=part.origin===primaryOrigin?'أساسية':'وصلة'}}
+const fixtures=Object.fromEntries(['sink','hob'].map(type=>{let o=openings[type];return [type,{show:o.show,x:position(type),distance:o.x,l:n(type==='sink'?'sinkL':'hobL'),w:n(type==='sink'?'sinkW':'hobW'),side:o.side}]}));parts.forEach(p=>{
+ // Interpolate the two measured edges at the seam; packing still uses a bounding rectangle.
+ const front=faces.front,back=faces.back,max=Math.max(front,back);
+ const at=x=>{
+   if(!max)return {front:0,back:0};
+   const offset=Math.abs(front-back),leftShift=(angleR&&!angleL)?offset:0;
+   return {front:Math.max(0,Math.min(front,x-(front<back?leftShift:0))),back:Math.max(0,Math.min(back,x-(back<front?leftShift:0)))};
+ };
+ const begin=at(p.origin||0),end=at((p.origin||0)+(p.nominalL||p.l));
+ p.frontEdge=Math.max(0,end.front-begin.front);p.backEdge=Math.max(0,end.back-begin.back);
+ p.fixtures=JSON.parse(JSON.stringify(fixtures));p.slopes={...slopes};p.fullFront=front;p.fullBack=back;p.fullLength=l;p.material=$('material').value;p.mergeEdges={...ed};p.allowance=a});items.push({id:Date.now(),name,parts});pack();renderList();toast('تمت إضافة '+name)};function renderList(){$('list').innerHTML=items.length?items.map((it,i)=>`<div style="padding:8px;border-bottom:1px solid #606a72">${i+1}. ${escapeHTML(it.name)} — ${it.parts.map(p=>fmt(p.l)+'×'+fmt(p.w)).join(' + ')} سم</div>`).join(''):'لا توجد قطع بعد.'}function escapeHTML(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}$('clearInput').onclick=()=>{for(let id of ['back','front','width','frontQuick','widthQuick'])$(id).value='';$('qty').value=1;draw()};$('newBoard').onclick=()=>{let b=boardSpecs[0];boards.push({l:b.l,w:b.w,placed:[],free:[{x:0,y:0,l:b.l,w:b.w}]});renderBoards()};
+document.querySelectorAll('[data-act]').forEach(btn=>btn.onclick=()=>{let act=btn.dataset.act;$('actions').classList.remove('show');if(act==='close'||!selectedPiece)return;let {bi,pi}=selectedPiece,p=boards[bi]?.placed[pi];if(!p)return;if(act==='rotate'){const angled=Math.abs(Number(p.fullFront||p.frontEdge||p.l)-Number(p.fullBack||p.backEdge||p.l))>.001;if(angled){toast('القطعة ذات الميل تبقى باتجاهها الطبيعي')}else{const spot=nearestPlacementOnBoard(boards[bi],p,p.w,p.l,pi);if(spot){const oldL=p.l;p.l=p.w;p.w=oldL;p.x=spot.x;p.y=spot.y;p.rotated=!p.rotated}else{toast('لا يوجد مكان مناسب للاستدارة على هذا اللوح')}}}if(act==='delete'){const group=p.group;const it=items.find(it=>it.id===group);if(it){const index=it.parts.findIndex(part=>part.part===p.part&&Math.abs(part.l-p.l)<.01);if(index>=0)it.parts.splice(index,1);else it.parts.pop();if(!it.parts.length)items=items.filter(it=>it.id!==group)}boards[bi].placed.splice(pi,1);renderList();}if(act==='edit'){let v=prompt('الطول × العرض (سم)',p.l+' × '+p.w);let m=v?.match(/([\d.]+)\s*[x×*]\s*([\d.]+)/);if(m){p.l=+m[1];p.w=+m[2]}}if(act==='move'){toast('اسحب القطعة بإصبعك إلى المكان المناسب');}renderBoards()});
+
+// حفظ الإعدادات الأساسية على نفس الجهاز بين نسخ التطبيق
+const PREF_KEY='PRO_STONE_02_PREFERENCES';
+function savePreferences(){try{localStorage.setItem(PREF_KEY,JSON.stringify({sinkL:$('sinkL').value,sinkW:$('sinkW').value,hobL:$('hobL').value,hobW:$('hobW').value,allowance:$('allowance').value,boardSpecs,language:$('language').value,unit:$('unit').value}))}catch(e){}}
+function loadPreferences(){try{const d=JSON.parse(localStorage.getItem(PREF_KEY)||'null');if(!d)return;for(const id of ['sinkL','sinkW','hobL','hobW','allowance','language','material'])if(d[id]!==undefined)$(id).value=d[id];
+if(!(Number($('sinkL').value)>0))$('sinkL').value=50;if(!(Number($('sinkW').value)>0))$('sinkW').value=40;if(!(Number($('hobL').value)>0))$('hobL').value=56;if(!(Number($('hobW').value)>0))$('hobW').value=49;if(Array.isArray(d.boardSpecs)&&d.boardSpecs.length)boardSpecs=d.boardSpecs;if(d.unit==='mm'||d.unit==='cm'){$('unit').value=d.unit;unit=d.unit;syncUnit()}}catch(e){}}
+for(const id of ['sinkL','sinkW','hobL','hobW','allowance','language','material'])$(id).addEventListener('input',()=>{savePreferences();draw()});
+$('unit').addEventListener('change',savePreferences);document.querySelectorAll('[data-edge]').forEach(el=>el.addEventListener('change',savePreferences));
+$('closeSettings').addEventListener('click',savePreferences);
+
+$('settingsBtn').onclick=()=>$('settings').classList.add('open');$('closeSettings').onclick=()=>$('settings').classList.remove('open');$('addBoardSize').onclick=()=>{let l=n('boardL'),w=n('boardW');if(l&&w){boardSpecs.push({l,w});renderSpecs();savePreferences()}};function renderSpecs(){$('boardSizes').textContent=boardSpecs.map((b,i)=>`${i+1}) ${b.l}×${b.w}`).join('  |  ')}$('unit').onchange=()=>{let next=$('unit').value;if(next===unit)return;let factor=next==='mm'?10:.1;for(let id of ['back','front','width','distance'])$(id).value=fmt((Number($(id).value)||0)*factor);unit=next;syncUnit();draw()};$('language').onchange=()=>{savePreferences();applyLanguage()};function download(filename,data,mime){let blob=new Blob([data],{type:mime}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}function state(){return{items,boardSpecs,boards,boardNames,boardViews,openings,seamPos,seamMode:$('seamMode').value,seamDistance:$('seamDistance').value,seamSide:$('seamSide').value,angleR,angleL,slopes:{...slopes},name,unit,values:Object.fromEntries(['back','front','width','frontQuick','widthQuick','material','qty','sinkL','sinkW','hobL','hobW','allowance'].map(id=>[id,$(id).value])),ed:edges()}}$('save').onclick=()=>download('PRO_STONE_project.json',JSON.stringify(state(),null,2),'application/json');$('load').onclick=()=>$('file').click();$('file').onchange=async e=>{try{let data=JSON.parse(await e.target.files[0].text());items=data.items||[];boardSpecs=data.boardSpecs||boardSpecs;boards=data.boards||[];Object.assign(boardNames,data.boardNames||{});Object.assign(boardViews,data.boardViews||{});Object.assign(openings,data.openings||{});seamPos=data.seamPos||0;$('seamMode').value=data.seamMode||'manual';$('seamDistance').value=data.seamDistance||'';$('seamSide').value=data.seamSide||'left';angleR=data.angleR||0;angleL=data.angleL||0;Object.assign(slopes,data.slopes||{});name=data.name||'';unit=data.unit||'cm';$('unit').value=unit;for(let [k,v] of Object.entries(data.values||{}))if($(k))$(k).value=v;document.querySelectorAll('[data-edge]').forEach(x=>x.checked=!!data.ed?.[x.dataset.edge]);$('frontQuick').value=$('front').value;$('widthQuick').value=$('width').value;draw();renderBoards();renderList();renderSpecs();toast('تم استرجاع المشروع')}catch(e){toast('تعذر فتح المشروع')}};$('print').onclick=()=>window.print();$('saveImage').onclick=()=>{if(!boards[0]){toast('أضف قطعة أولاً');return}downloadBoardImage(0)};$('share').onclick=()=>{if(navigator.share)navigator.share({title:'PRO STONE 0.4.9',text:'PRO STONE — مخطط قص الرخام'}).catch(()=>{});else toast('يمكنك مشاركة ملف HTML من التنزيلات')};$('reset').onclick=()=>{if(confirm('مسح كل القطع والألواح؟')){items=[];boards=[];renderBoards();renderList();toast('تم المسح')}};
+$('closeFixture').onclick=()=>{$('fixtureModal').classList.remove('open');active=null;draw()};
+$('saveFixture').onclick=()=>{$('fixtureModal').classList.remove('open');active=null;draw()};
+$('fixtureModal').addEventListener('pointerdown',e=>{if(e.target===$('fixtureModal'))$('closeFixture').click()});
+function syncSeamModal(){ $('seamToggleProxy').checked=$('seamEnabled').checked;$('seamModeProxy').value=$('seamMode').value;$('seamDistanceProxy').value=$('seamDistance').value;$('seamProxyManual').classList.toggle('hidden',$('seamModeProxy').value!=='manual');$('seamLeftProxy').classList.toggle('on',$('seamSide').value==='left');$('seamRightProxy').classList.toggle('on',$('seamSide').value==='right'); }
+$('openSeam').onclick=()=>{syncSeamModal();$('seamModal').classList.add('open')};
+$('closeSeam').onclick=()=>$('seamModal').classList.remove('open');
+$('seamModal').addEventListener('pointerdown',e=>{if(e.target===$('seamModal'))$('closeSeam').click()});
+$('seamModeProxy').onchange=()=>{$('seamProxyManual').classList.toggle('hidden',$('seamModeProxy').value!=='manual')};
+$('seamLeftProxy').onclick=()=>{$('seamSide').value='left';syncSeamModal()};$('seamRightProxy').onclick=()=>{$('seamSide').value='right';syncSeamModal()};
+$('saveSeam').onclick=()=>{$('seamEnabled').checked=$('seamToggleProxy').checked;$('seamMode').value=$('seamModeProxy').value;$('seamDistance').value=$('seamDistanceProxy').value;draw();$('seamModal').classList.remove('open')};
+const _draw=draw;draw=function(){_draw();const on=$('seamEnabled').checked;$('seamCompactText').textContent=on?($('seamMode').value==='manual'?'يدوي · '+($('seamDistance').value||'—')+' سم':$('seamMode').value==='start'?'بداية البوتغاز':'نهاية البوتغاز'):'غير مفعلة';};
+loadPreferences();renderSpecs();draw();
+
+// UI language translations, including elements generated after rendering.
+
+function keepQuickModalVisible(){const vv=window.visualViewport;if(!vv)return;document.querySelectorAll('.quick-modal.open>section').forEach(sec=>{sec.style.maxHeight=Math.max(180,vv.height-28)+'px';sec.style.marginTop='6px'})}
+if(window.visualViewport){visualViewport.addEventListener('resize',keepQuickModalVisible);visualViewport.addEventListener('scroll',keepQuickModalVisible)}
+document.querySelectorAll('.quick-modal').forEach(m=>m.addEventListener('focusin',()=>setTimeout(keepQuickModalVisible,60)));
+const uiTranslations={tr:{"الإعدادات": "Ayarlar", "واجهة التحكم": "Kontrol paneli", "طول الخلف": "Arka uzunluk", "طول الأمام": "Ön uzunluk", "العرض": "Genişlik", "الكمية": "Adet", "الاسم": "Ad", "اسم القطعة": "Parça adı", "طول الأمام (سم)": "Ön uzunluk (cm)", "العرض (سم)": "Genişlik (cm)", "نوع الحجر": "Taş türü", "تحديد الزاوية": "Köşe seçimi", "زاوية اليمين": "Sağ köşe", "زاوية اليسار": "Sol köşe", "تفعيل الوصلة": "Eki etkinleştir", "عند نهاية البوتغاز": "Ocağın bitiminde", "مكان الوصلة": "Ek yeri", "مسافة الوصلة":"Ek mesafesi", "يدوي / Manuel":"Manuel", "جهات الدمج (+3 سم لكل جهة محددة)": "Birleştirme yönleri (seçilen kenara +3 cm)", "يمين": "Sağ", "يسار": "Sol", "أمام": "Ön", "خلف": "Arka", "إضافة حوض": "Evye ekle", "إضافة بوتغاز": "Ocak ekle", "تفعيل الحوض":"Evyeyi etkinleştir", "تفعيل البوتغاز":"Ocağı etkinleştir", "تنظيف القياسات": "Ölçüleri temizle", "إضافة القطعة": "Parçayı ekle", "إضافة القطعة إلى اللوح": "Parçayı levhaya ekle", "الحوض": "Evye", "البوتغاز": "Ocak", "المسافة إلى المركز": "Merkeze uzaklık", "المسافة إلى بداية الفتحة": "Açıklığın başlangıcına uzaklık", "من اليمين": "Sağdan", "من اليسار": "Soldan", "إزالة": "Kaldır", "الألواح المستخدمة": "Kullanılan levhalar", "لوح جديد": "Yeni levha", "القطع": "Parçalar", "الإعدادات الرئيسية": "Genel ayarlar", "اللغة": "Dil", "وحدة العرض": "Ölçü birimi", "مقاسات الألواح (سم)": "Levha ölçüleri (cm)", "الطول": "Uzunluk", "إضافة مقاس": "Ölçü ekle", "إعدادات الحوض والبوتغاز (سم)": "Evye ve ocak ayarları (cm)", "الحوض: طول": "Evye uzunluğu", "البوتغاز: طول": "Ocak uzunluğu", "سماحية الدمج (سم)": "Birleştirme payı (cm)", "حفظ المشروع": "Projeyi kaydet", "استرجاع مشروع": "Proje aç", "طباعة / PDF": "Yazdır / PDF", "حفظ صورة اللوح": "Levha görselini kaydet", "مشاركة التطبيق": "Uygulamayı paylaş", "مسح الكل": "Tümünü temizle", "نقل": "Taşı", "استدارة": "Döndür", "تعديل المقاس": "Ölçüyü düzenle", "مسح": "Sil", "إغلاق": "Kapat", "سم": "cm", "مم": "mm", "بورسلان": "Porselen", "شمستون": "Çimstone", "بلنكو": "Belenco", "غرانيت": "Granit", "العربية": "Arapça", "ضغطتين على اللوح لتكبيره. اضغط مطولاً على قطعة لإظهار خياراتها. اسحب القطعة إلى موضع آخر.": "Levhayı büyütmek için iki kez dokunun. Parça seçenekleri için uzun basın. Taşımak için sürükleyin.", "الحفظ كملف JSON. الطباعة إلى PDF متاحة من خيار الطباعة في الهاتف. الصورة للوح الأول.": "Projeler JSON olarak kaydedilir. PDF için telefonun yazdırma seçeneğini kullanın. Görsel ilk levhaya aittir."},en:{"الإعدادات": "Settings", "واجهة التحكم": "Control panel", "طول الخلف": "Back length", "طول الأمام": "Front length", "العرض": "Width", "الكمية": "Quantity", "الاسم": "Name", "اسم القطعة": "Piece name", "نوع الحجر": "Stone type", "تحديد الزاوية": "Corner selection", "زاوية اليمين": "Right corner", "زاوية اليسار": "Left corner", "تفعيل الوصلة": "Enable seam", "مكان الوصلة": "Seam position", "مسافة الوصلة":"Seam distance", "يدوي / Manuel":"Manual", "يمين": "Right", "يسار": "Left", "أمام": "Front", "خلف": "Back", "إضافة حوض": "Add sink", "إضافة بوتغاز": "Add hob", "تفعيل الحوض":"Enable sink", "تفعيل البوتغاز":"Enable hob", "تنظيف القياسات": "Clear measurements", "إضافة القطعة": "Add piece", "إضافة القطعة إلى اللوح": "Add piece to slab", "الحوض": "Sink", "البوتغاز": "Hob", "الألواح المستخدمة": "Used slabs", "لوح جديد": "New slab", "القطع": "Pieces", "الإعدادات الرئيسية": "Main settings", "اللغة": "Language", "وحدة العرض": "Unit", "الطول": "Length", "إضافة مقاس": "Add size", "حفظ المشروع": "Save project", "استرجاع مشروع": "Open project", "طباعة / PDF": "Print / PDF", "حفظ صورة اللوح": "Save slab image", "مشاركة التطبيق": "Share app", "مسح الكل": "Clear all", "سم": "cm", "مم": "mm"}};
+let languageBusy=false;
+function applyLanguage(){
+ if(languageBusy)return;languageBusy=true;
+ try{const lang=$('language').value;document.documentElement.lang=lang;
+  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;
+  while(node=walker.nextNode()){const parent=node.parentElement;if(!parent||['SCRIPT','STYLE','TEXTAREA'].includes(parent.tagName))continue;
+   let original=node.__originalArabic;if(original===undefined){original=node.textContent;node.__originalArabic=original;}
+   const trimmed=original.trim();if(!trimmed)continue;const dict=uiTranslations[lang]||{};
+   const mapped=dict[trimmed]||dict[trimmed.replace(/^[^\p{L}]+/u,'')];
+   if(lang==='ar'){if(node.textContent!==original)node.textContent=original;}
+   else if(mapped){const prefix=original.match(/^\s*/)[0],suffix=original.match(/\s*$/)[0];const newText=prefix+mapped+suffix;if(node.textContent!==newText)node.textContent=newText;}
+  }
+ }finally{languageBusy=false;}
+}
+const langObserver=new MutationObserver(()=>{if(!languageBusy&&$('language').value!=='ar')applyLanguage()});
+langObserver.observe(document.body,{childList:true,subtree:true});
+applyLanguage();
+</script></body></html>
